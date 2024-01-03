@@ -8,7 +8,7 @@ import formUV as formUV
 from helpers import trapz, eta, zeta
 from dmdd.globals import PAR_NORMS
 import dmdd.constants as const
-DTYPE = np.float
+DTYPE = np.float64
 ctypedef np.float_t DTYPE_t
 
 cdef extern from "math.h":
@@ -101,7 +101,7 @@ def dRdQSI(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v_esc, DTY
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formUV.factor_SI(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,V0,v_lag)
         tot = v_independent * val_eta * ff
@@ -131,7 +131,7 @@ def dRdQSI_massless(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_SI(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,V0,v_lag)
@@ -163,7 +163,7 @@ def dRdQSD(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v_esc, DTY
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formUV.factor_SD(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,V0,v_lag)
         tot = v_independent * val_eta * ff
@@ -192,7 +192,7 @@ def dRdQSD_neutron(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v_
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formUV.factor_SD_neutron(element_name,y_harm)
         val_eta = eta(v_min,v_esc,V0,v_lag)
         tot = v_independent * val_eta * ff
@@ -223,7 +223,7 @@ def dRdQSD_massless(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_SD(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,V0,v_lag)
@@ -255,7 +255,7 @@ def dRdQana(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v_esc, DT
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff_v_std = formUV.factor_anapole_v_std(element_name,y_harm,mx,b_harm)
         ff_v_sq = formUV.factor_anapole_v_sq(element_name,y_harm)
         val_eta = eta(v_min,v_esc,V0,v_lag)
@@ -289,7 +289,7 @@ def dRdQana_massless(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t 
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff_v_std = formUV.factor_anapole_v_std(element_name,y_harm,mx,b_harm)
         ff_v_sq = formUV.factor_anapole_v_sq(element_name,y_harm)
@@ -323,7 +323,7 @@ def dRdQmagdip(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v_esc,
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff_v_std = formUV.factor_magdip_v_std(element_name,y_harm,mx,b_harm)
         ff_v_sq = formUV.factor_magdip_v_sq(element_name,y_harm)
@@ -357,7 +357,7 @@ def dRdQmagdip_massless(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff_v_std = formUV.factor_magdip_v_std(element_name,y_harm,mx,b_harm)
         ff_v_sq = formUV.factor_magdip_v_sq(element_name,y_harm)
@@ -391,7 +391,7 @@ def dRdQelecdip(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v_esc
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_elecdip(element_name,y_harm)
         val_eta = eta(v_min,v_esc,V0,v_lag)
@@ -423,7 +423,7 @@ def dRdQelecdip_massless(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYP
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_elecdip(element_name,y_harm)
         val_eta = eta(v_min,v_esc,V0,v_lag)
@@ -456,7 +456,7 @@ def dRdQLS(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v_esc, DTY
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         q_squared = 2.*weight*mN*q
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].    
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff_vstd = formUV.factor_LS_vstd(element_name,y_harm,fnfp,mx,b_harm)
         ff_vsq = formUV.factor_LS_vsq(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,V0,v_lag)
@@ -489,7 +489,7 @@ def dRdQLS_massless(np.ndarray[DTYPE_t] Er, DTYPE_t V0, DTYPE_t v_lag, DTYPE_t v
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].    
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formUV.factor_LS(element_name,y_harm,fnfp,mx)
         val_eta = eta(v_min,v_esc,V0,v_lag)
         tot = v_independent * val_eta * ff
@@ -520,7 +520,7 @@ def dRdQf1(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_esc, 
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_PS_S(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
@@ -552,7 +552,7 @@ def dRdQf1_massless(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_PS_S(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
@@ -584,7 +584,7 @@ def dRdQf2(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_esc, 
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_S_PS(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
@@ -616,7 +616,7 @@ def dRdQf2_massless(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_S_PS(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
@@ -648,7 +648,7 @@ def dRdQf3(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_esc, 
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         q_squared = 2.*weight*mN*q
         ff = formUV.factor_PS_PS(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
@@ -679,7 +679,7 @@ def dRdQf3_massless(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_
     for i in range(npts):
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formUV.factor_PS_PS(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
         tot = v_independent * val_eta * ff

@@ -3,7 +3,7 @@ cimport numpy as np
 cimport cython
 from cpython cimport bool
 
-DTYPE = np.float
+DTYPE = np.float64
 ctypedef np.float_t DTYPE_t
 
 cdef extern from "math.h":

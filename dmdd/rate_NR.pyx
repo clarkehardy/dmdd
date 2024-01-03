@@ -8,7 +8,7 @@ import formNR as formNR
 from helpers import trapz, eta, zeta
 from dmdd.globals import PAR_NORMS
 import dmdd.constants as const
-DTYPE = np.float
+DTYPE = np.float64
 ctypedef np.float_t DTYPE_t
 
 cdef extern from "math.h":
@@ -94,7 +94,7 @@ def dRdQM(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_esc, D
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         qsq = 2.*weight*mN*q # this is qsquared, which multiplies the coefficients
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formNR.factor_M(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
         val_zeta = zeta(v_min,v_esc,v_rms,v_lag)
@@ -127,7 +127,7 @@ def dRdQSigPP(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_es
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         qsq = 2.*weight*mN*q # this is qsquared, which multiplies the coefficients
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formNR.factor_SigPP(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
         val_zeta = zeta(v_min,v_esc,v_rms,v_lag)
@@ -160,7 +160,7 @@ def dRdQSigP(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_esc
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         qsq = 2.*weight*mN*q # this is qsquared, which multiplies the coefficients
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formNR.factor_SigP(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
         val_zeta = zeta(v_min,v_esc,v_rms,v_lag)
@@ -193,7 +193,7 @@ def dRdQPhiPP(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_es
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         qsq = 2.*weight*mN*q # this is qsquared, which multiplies the coefficients
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formNR.factor_PhiPP(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
         val_zeta = zeta(v_min,v_esc,v_rms,v_lag)
@@ -226,7 +226,7 @@ def dRdQDelta(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_es
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         qsq = 2.*weight*mN*q # this is qsquared, which multiplies the coefficients
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formNR.factor_Delta(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
         val_zeta = zeta(v_min,v_esc,v_rms,v_lag)
@@ -259,7 +259,7 @@ def dRdQMPhiPP(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t v_e
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         qsq = 2.*weight*mN*q # this is qsquared, which multiplies the coefficients
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formNR.factor_MPhiPP(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
         val_zeta = zeta(v_min,v_esc,v_rms,v_lag)
@@ -292,7 +292,7 @@ def dRdQSigPDelta(np.ndarray[DTYPE_t] Er, DTYPE_t v_rms, DTYPE_t v_lag, DTYPE_t 
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         qsq = 2.*weight*mN*q # this is qsquared, which multiplies the coefficients
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mx/(weight*mN+mx)) *3.*10.**5)
         ff = formNR.factor_SigPDelta(element_name,y_harm,fnfp)
         val_eta = eta(v_min,v_esc,v_rms,v_lag)
         val_zeta = zeta(v_min,v_esc,v_rms,v_lag)

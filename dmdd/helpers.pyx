@@ -3,7 +3,7 @@ cimport numpy as np
 cimport cython
 from cpython cimport bool
 
-DTYPE = np.float
+DTYPE = np.float64
 ctypedef np.float_t DTYPE_t
 cdef DTYPE_t pi = np.pi #3.14159265359
 
@@ -98,7 +98,7 @@ def zeta(DTYPE_t v_min,DTYPE_t v_esc,DTYPE_t v_rms, DTYPE_t v_lag):
     if xesc-xmin-xe > 0:
         integral = (1./2*sqrt(pi)*(2*xe**2+1)*(erf(xmin+xe)-erf(xmin-xe)) + exp(-(xmin-xe)**2)*(xe+xmin) + exp(-(xmin+xe)**2)*(xe-xmin) - exp(-xesc**2)*(4*(1+xesc**2+xe**2./3)*xe-2*xe**5/15.+4*xe**3*xesc**2/3.-2*xe*(xmin**4-xesc**4)))*norm
     elif xesc-xmin+xe > 0 and -xesc+xmin+xe > 0:
-        integral = 2*exp(-xesc**2)*(1./3*(xmin**3-(xesc+xe)**3)-1./4*exp(-xmin**2-xe**2+xesc**2)*(pi**.5*(2*xe**2+1)*exp(xmin**2+xe**2)*(erf(xmin-xe)-erf(xesc))-2*exp(2*xmin*xe)*(xmin+xe)+2*(xesc+2*xe)*exp(xmin**2+xe**2-xesc**2))-1./30*(-xe**5+10*xe**3*xesc**2+10*xe**2*(2*xesc**3+xmin**3)+15*xe*(xesc**4-xmin**4)+4*xesc**5-10*xesc**2*xmin**3+6*xmin**5))*norm
+        integral = np.real(2*exp(-xesc**2)*(1./3*(xmin**3-(xesc+xe)**3)-1./4*exp(-xmin**2-xe**2+xesc**2)*(pi**.5*(2*xe**2+1)*exp(xmin**2+xe**2)*(erf(xmin-xe)-erf(xesc))-2*exp(2*xmin*xe)*(xmin+xe)+2*(xesc+2*xe)*exp(xmin**2+xe**2-xesc**2))-1./30*(-xe**5+10*xe**3*xesc**2+10*xe**2*(2*xesc**3+xmin**3)+15*xe*(xesc**4-xmin**4)+4*xesc**5-10*xesc**2*xmin**3+6*xmin**5))*norm)
     else:
         integral =  0
     res = integral*v_rms/(3.*10**5.)

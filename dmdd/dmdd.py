@@ -30,8 +30,8 @@ except ImportError:
   logging.warning('pymultinest not imported!')
 
 if not on_rtd:
-    from constants import *
-    from globals import *
+    from .constants import *
+    from .globals import *
 
 try:
     MAIN_PATH = os.environ['DMDD_MAIN_PATH']
@@ -273,7 +273,7 @@ class MultinestRun(object):
         """
         res = 0
         fit_paramvals = {}
-        for i in xrange(ndim):
+        for i in range(ndim):
             par = self.fit_model.param_names[i]
             fit_paramvals[par] = cube[i]
     
@@ -301,7 +301,7 @@ class MultinestRun(object):
         
         """
         params = self.fit_model.param_names
-        for i in xrange(ndim):
+        for i in range(ndim):
             # if the i-th param is fnfp, then the range
             # might go to negative values, must force flat prior:
             if params[i] in FNFP_PARAM_NAMES:
@@ -323,7 +323,7 @@ class MultinestRun(object):
         
         """
         params = self.fit_model.param_names
-        for i in xrange(ndim):
+        for i in range(ndim):
             cube_min,cube_max = self.prior_ranges[params[i]]
             cube[i] = cube[i] * (cube_max - cube_min) + cube_min
 
@@ -335,8 +335,8 @@ class MultinestRun(object):
         filename = self.chainspath + self.mn_params['outputfiles_basename'] + 'stats.dat'
         try:
             fev = open(filename,'r')
-        except IOError,e:
-            print e
+        except IOError as e:
+            print(e)
             return 0
     
         line = fev.readline()
@@ -393,7 +393,7 @@ class MultinestRun(object):
     
         if (not os.path.exists(chains_file)) or (not os.path.exists(pickle_file)) or (not os.path.exists(stats_file)):
             force_run = True
-            print 'Chains, pickle, or stats file(s) not found. Forcing run.\n\n'
+            print('Chains, pickle, or stats file(s) not found. Forcing run.\n\n')
         else:
             fin = open(pickle_file,'rb')
             pickle_old = pickle.load(fin)
@@ -401,7 +401,7 @@ class MultinestRun(object):
             try:
                 if not compare_dictionaries(pickle_old, pickle_content):
                     force_run = True
-                    print 'Run pickle file not a match. Forcing run.\n\n'
+                    print('Run pickle file not a match. Forcing run.\n\n')
             except:
                 raise
                           
@@ -439,7 +439,7 @@ class MultinestRun(object):
 
         end = time.time()
         if not self.silent:
-            print '\n Fit took {:.12f} minutes.\n'.format((end - start) / 60.)
+            print('\n Fit took {:.12f} minutes.\n'.format((end - start) / 60.))
         
     def visualize(self, **kwargs):
         """
@@ -667,7 +667,7 @@ class Simulation(object):
                 force_sim = True
                 
         else:
-            print 'Simulation data and/or pickle file does not exist. Forcing simulation.\n\n'
+            print('Simulation data and/or pickle file does not exist. Forcing simulation.\n\n')
             force_sim = True
       
         if force_sim:
@@ -699,7 +699,7 @@ class Simulation(object):
             self.plot_data(plot_nbins=plot_nbins, plot_theory=plot_theory, save_plot=True)
         else:
             if not self.silent:
-                print "simulation had %i events (expected %.0f)." % (self.N,self.model_N)
+                print("simulation had %i events (expected %.0f)." % (self.N,self.model_N))
     
         
     def simulate_data(self):
@@ -726,7 +726,7 @@ class Simulation(object):
             Nexpected = 0
 
         if not self.silent:
-            print "simulated: %i events (expected %.0f)." % (Nevents,Nexpected)
+            print("simulated: %i events (expected %.0f)." % (Nevents,Nexpected))
         return Q
 	    
     def plot_data(self, plot_nbins=20, plot_theory=True, save_plot=True,
@@ -1150,8 +1150,8 @@ def compare_dictionaries(d1,d2,debug=False,rtol=1e-5):
     """
     if not set(d1.keys())==set(d2.keys()):
         if debug:
-            print 'keys not equal.'
-            print d1.keys(),d2.keys()
+            print('keys not equal.')
+            print(d1.keys(),d2.keys())
         return False
     for k in d1.keys():
         if type(d1[k]) != type(d2[k]):
@@ -1159,13 +1159,13 @@ def compare_dictionaries(d1,d2,debug=False,rtol=1e-5):
         elif type(d1[k])==dict:
             if not compare_dictionaries(d1[k],d2[k],rtol=rtol):
                 if debug:
-                    print 'dictionaries not equal for {}.'.format(k)
+                    print('dictionaries not equal for {}.'.format(k))
                 return False
         elif type(d1[k])==type(np.array([1,2])):
             if not np.all(d1[k]==d2[k]):
                 if debug:
-                    print 'arrays for {} not equal:'.format(k)
-                    print d1[k], d2[k]
+                    print('arrays for {} not equal:'.format(k))
+                    print(d1[k], d2[k])
                 return False
 
         #make sure floats are close in value, down to rtol relative precision:

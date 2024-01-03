@@ -4,7 +4,7 @@ cimport cython
 from cpython cimport bool
 
 STUFF = 'Hi' # yup. http://stackoverflow.com/questions/8024805/cython-compiled-c-extension-importerror-dynamic-module-does-not-define-init-fu
-DTYPE = np.float
+DTYPE = np.float64
 ctypedef np.float_t DTYPE_t
 cdef extern from 'math.h':
 	#float INFINITY

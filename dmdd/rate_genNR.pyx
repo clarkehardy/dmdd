@@ -8,7 +8,7 @@ import formgenNR as formgenNR
 from helpers import trapz, eta, zeta
 from dmdd.globals import PAR_NORMS
 import dmdd.constants as const
-DTYPE = np.float
+DTYPE = np.float64
 ctypedef np.float_t DTYPE_t
 cdef DTYPE_t pi = np.pi
 
@@ -139,7 +139,7 @@ def dRdQ(np.ndarray[DTYPE_t] Er, DTYPE_t mass=50., np.ndarray[DTYPE_t] c1p=np.ar
         q = Er[i]*10**-6. #converting Er from keV-->GeV.
         qsq = 2.*weight*mN*q # this is qsquared, which multiplies the coefficients
         y_harm = weight*mN*q*b_harm**2/2. #this takes q in [GeV].
-        v_min = ((2.*weight*mN*q))**0.5/(2.*weight*mN*mass/(weight*mN+mass)) *3.*10.**5
+        v_min = np.real(((2.*weight*mN*q))**0.5/(2.*weight*mN*mass/(weight*mN+mass)) *3.*10.**5)
         ff_M_std = formgenNR.factor_M(element_name,y_harm, c1p[0]*c1p[0], c1p[0]*c1n[0], c1n[0]*c1p[0], c1n[0]*c1n[0])
         ff_M_v2 = formgenNR.factor_M(element_name,y_harm, c8p[0]*c8p[0]/4., c8p[0]*c8n[0]/4., c8n[0]*c8p[0]/4., c8n[0]*c8n[0]/4.)
         ff_M_q2 = formgenNR.factor_M(element_name,y_harm, 2*c1p[1]*c1p[0]*mN**2./mass**2.+c11p[0]*c11p[0]/4.-c8p[0]*c8p[0]*mN**2./(16.*m_reduced_sq), (c1p[1]*c1n[0]+c1p[0]*c1n[1])*mN**2./mass**2.+c11p[0]*c11n[0]/4.-c8p[0]*c8n[0]*mN**2./(16.*m_reduced_sq), (c1p[1]*c1n[0]+c1p[0]*c1n[1])*mN**2./mass**2.+c11n[0]*c11p[0]/4.-c8n[0]*c8p[0]*mN**2./(16.*m_reduced_sq), 2*c1n[1]*c1n[0]*mN**2./mass**2.+c11n[0]*c11n[0]/4.-c8n[0]*c8n[0]*mN**2./(16.*m_reduced_sq))
