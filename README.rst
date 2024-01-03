@@ -1,6 +1,9 @@
 dmdd
 =========
+This fork of **dmdd** adds only the minimal changes necessary to allow for compatibility with python3. Below is the README from the original authors.
 
+dmdd
+---------
 A python package that enables simple simulation and Bayesian posterior analysis
 of nuclear-recoil data from dark matter direct detection experiments 
 for a wide variety of theories of dark matter-nucleon interactions.    
